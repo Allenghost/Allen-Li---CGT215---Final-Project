@@ -143,19 +143,32 @@ void Sharpen(Image input, Image output, int width, int height) {
             int maxX = min(x + 1, width - 1);
             int minY = max(y - 1, 0);
             int maxY = min(y + 1, height - 1);
+            int pixCount = 0;
             int rCount = 0;
             int bCount = 0;
             int gCount = 0;
             for (int pixY = minY; pixY <= maxY; pixY++) {
                 for (int pixX = minX; pixX <= maxX; pixX++) {
                     Color pixC = input.getPixel(pixX, pixY);
-                    rCount += pixC.r;
-                    gCount += pixC.g;
-                    bCount += pixC.b;
+                    if ((pixY != y) && (pixX != x)) {
+                        rCount += pixC.r * 0;
+                        gCount += pixC.g * 0;
+                        bCount += pixC.b * 0;
+                    }
+                    else if ((pixY == y) && (pixX == x)) {
+                        rCount += pixC.r * 5;
+                        gCount += pixC.g * 5;
+                        bCount += pixC.b * 5;
+                    }
+                    else {
+                        rCount += pixC.r * -1;
+                        gCount += pixC.g * -1;
+                        bCount += pixC.b * -1;
+                    }
                 }
             }
-            Color sharpC = Color(2* pixC.r - blurC.r, 2 * pixC.g - blurC.g, 2 * pixC.b - blurC.b);
-            output.setPixel(x, y, blurC);
+            Color sharpC = Color(rCount, gCount, bCount);
+            output.setPixel(x, y, sharpC);
         }
     }
     Texture tex1;
