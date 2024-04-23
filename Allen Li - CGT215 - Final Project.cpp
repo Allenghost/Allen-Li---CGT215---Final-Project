@@ -151,21 +151,42 @@ void Sharpen(Image input, Image output, int width, int height) {
                 for (int pixX = minX; pixX <= maxX; pixX++) {
                     Color pixC = input.getPixel(pixX, pixY);
                     if ((pixY != y) && (pixX != x)) {
+                        pixCount++;
                         rCount += pixC.r * 0;
                         gCount += pixC.g * 0;
                         bCount += pixC.b * 0;
                     }
                     else if ((pixY == y) && (pixX == x)) {
+                        pixCount++;
                         rCount += pixC.r * 5;
                         gCount += pixC.g * 5;
                         bCount += pixC.b * 5;
                     }
                     else {
+                        pixCount++;
                         rCount += pixC.r * -1;
                         gCount += pixC.g * -1;
                         bCount += pixC.b * -1;
                     }
                 }
+            }
+            if (rCount > 255) {
+                rCount = 255;
+            }
+            else if (rCount < 0) {
+                rCount = 0;
+            }
+            if (gCount > 255) {
+                gCount = 255;
+            }
+            else if (gCount < 0) {
+                gCount = 0;
+            }
+            if (bCount > 255) {
+                bCount = 255;
+            }
+            else if (bCount < 0) {
+                bCount = 0;
             }
             Color sharpC = Color(rCount, gCount, bCount);
             output.setPixel(x, y, sharpC);
